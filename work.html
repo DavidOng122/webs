@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Work</title>
+    <style>
+        html, body {
+            min-height: 1770px;
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        /* ===== 新的、稳固的头部布局 (Flexbox) ===== */
+        .main-header {
+           box-sizing: border-box;
+           width: 100%;
+           height: 100px; /* 新增：设置一个固定的高度，例如 100px */
+           padding: 0 120px; /* 修改：移除上下内边距，只保留左右 */
+           display: flex;
+           justify-content: space-between;
+           align-items: center;
+           position: absolute;
+           top: 0;
+           left: 0;
+        }
+
+        .Logo {
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            color: black;
+            position: relative;
+            top: 50px;
+        }
+
+        .nav {
+            display: flex;
+            gap: 60px;
+            position: relative; /* 关键：为下划线的绝对定位提供参照物 */
+            top: 50px;
+        }
+
+        .nav-item {
+            font-size: 19px;
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .nav-underline {
+            position: absolute;
+            bottom: -5px;
+            height: 2px;
+            background-color: black;
+            transition: all 0.4s ease;
+        }
+        
+
+    </style>
+</head>
+<body data-page="work">
+
+    <header class="main-header">
+        <a href="work.html" class="Logo">V</a>
+        <nav class="nav">
+            <a href="work.html" class="nav-item" id="work">Work</a>
+            <a href="about.html" class="nav-item" id="about">About</a>
+            <div class="nav-underline"></div>
+        </nav>
+    </header>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const underline = document.querySelector('.nav-underline');
+            const items = document.querySelectorAll('.nav-item');
+            const currentId = document.body.dataset.page;
+            const currentItem = document.getElementById(currentId);
+
+            function setUnderline(el) {
+                if (el) {
+                    underline.style.width = `${el.offsetWidth}px`;
+                    underline.style.left = `${el.offsetLeft}px`;
+                }
+            }
+
+            if (currentItem) {
+                // 使用 requestAnimationFrame 确保在浏览器下一次绘制前更新
+                requestAnimationFrame(() => {
+                    setUnderline(currentItem);
+                });
+            }
+
+            items.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    setUnderline(this);
+                    setTimeout(() => {
+                        window.location.href = this.href;
+                    }, 400);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
